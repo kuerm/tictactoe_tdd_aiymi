@@ -7,6 +7,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ApplicationTest {
     @Test
     void startGameThenEmpty3x3BoardIsReturned() {
-        assertThat(3).isEqualTo(3);
+        int actualWidth = 3;
+
+        int expectedWidth = 3;
+        assertThat(actualWidth).isEqualTo(expectedWidth);
     }
 }
