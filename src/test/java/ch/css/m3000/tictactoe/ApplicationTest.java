@@ -12,13 +12,23 @@ class ApplicationTest {
     @Test
     void startGameThenEmpty3x3BoardIsReturned() {
         int size = 3;
-        Board board = Board.of(size);
+        Board sut = Board.of(size);
 
-        int actualSize = board.length();
+        int actualSize = sut.length();
 
         int expectedSize = 3;
         assertThat(actualSize).isEqualTo(expectedSize);
-        assertThatAllFieldsMustBeEmpty(board);
+        assertThatAllFieldsMustBeEmpty(sut);
+    }
+
+    @Test
+    void firstInput1x1ThenReturnBoardWithOneXAnd8Empty() {
+        int size = 3;
+        Board sut = Board.of(3);
+
+        sut.play(1, 1);
+
+        assertThat(sut.fieldAt(1, 1)).isEqualTo(Field.X);
     }
 
     private void assertThatAllFieldsMustBeEmpty(Board board) {
@@ -32,7 +42,7 @@ class ApplicationTest {
     }
 
     private enum Field {
-        EMPTY
+        X, EMPTY
     }
 
     private static final class Board {
@@ -43,7 +53,11 @@ class ApplicationTest {
         }
 
         private static Board of(int size) {
-            return new Board(new Field[size][size]);
+            Field[][] fields = new Field[size][size];
+            for (Field[] field : fields) {
+                Arrays.fill(field, Field.EMPTY);
+            }
+            return new Board(fields);
         }
 
         private int length() {
@@ -77,7 +91,11 @@ class ApplicationTest {
         }
 
         public Field fieldAt(int x, int y) {
-            return Field.EMPTY;
+            return value[x - 1][y - 1];
+        }
+
+        public void play(int x, int y) {
+            value[x - 1][y - 1] = Field.X;
         }
     }
 }
