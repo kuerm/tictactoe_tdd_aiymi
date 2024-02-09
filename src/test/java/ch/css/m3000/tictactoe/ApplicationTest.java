@@ -9,10 +9,12 @@ import java.util.Objects;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ApplicationTest {
+
+    private static final int DEFAULT_SIZE = 3;
+
     @Test
     void startGameThenEmpty3x3BoardIsReturned() {
-        int size = 3;
-        Board sut = Board.of(size);
+        Board sut = Board.of(DEFAULT_SIZE);
 
         int actualSize = sut.size();
 
@@ -23,7 +25,7 @@ class ApplicationTest {
 
     @Test
     void firstInput1x1ThenReturnBoardWithOneXAnd8Empty() {
-        Board sut = Board.of(3);
+        Board sut = Board.of(DEFAULT_SIZE);
 
         sut.play(1, 1);
 
@@ -36,7 +38,7 @@ class ApplicationTest {
 
     @Test
     void fieldAtWhenEmptyBoardThenReturnFieldWithEmptyState() {
-        Board sut = Board.of(3);
+        Board sut = Board.of(DEFAULT_SIZE);
 
         Field actual = sut.field(1, 1);
 
