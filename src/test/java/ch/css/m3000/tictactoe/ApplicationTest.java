@@ -23,20 +23,29 @@ class ApplicationTest {
 
     @Test
     void firstInput1x1ThenReturnBoardWithOneXAnd8Empty() {
-        int size = 3;
         Board sut = Board.of(3);
 
         sut.play(1, 1);
 
         assertThat(sut.fieldAt(1, 1)).isEqualTo(Field.X);
         int expectedEmptyFields = 8;
-        int actualEmptyFields = 0;
-        for (int x = 1; x <= size; ++x) {
-            for (int y = 1; y <= size; ++y) {
-                actualEmptyFields += sut.fieldAt(x, y) == Field.EMPTY ? 1 : 0;
-            }
-        }
+        int actualEmptyFields = countEmptyFields(sut);
         assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
+    }
+
+    private int countEmptyFields(Board board) {
+        int size = 3;
+        int actualEmptyFields = 0;
+        int x = 1;
+        while (x <= size) {
+            int y = 1;
+            while (y <= size) {
+                actualEmptyFields += board.fieldAt(x, y) == Field.EMPTY ? 1 : 0;
+                ++y;
+            }
+            ++x;
+        }
+        return actualEmptyFields;
     }
 
     private void assertThatAllFieldsMustBeEmpty(Board board) {
