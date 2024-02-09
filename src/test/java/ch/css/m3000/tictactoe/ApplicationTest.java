@@ -29,6 +29,14 @@ class ApplicationTest {
         sut.play(1, 1);
 
         assertThat(sut.fieldAt(1, 1)).isEqualTo(Field.X);
+        int expectedEmptyFields = 8;
+        int actualEmptyFields = 0;
+        for (int x = 1; x <= size; ++x) {
+            for (int y = 1; y <= size; ++y) {
+                actualEmptyFields += sut.fieldAt(x, y) == Field.EMPTY ? 1 : 0;
+            }
+        }
+        assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
     }
 
     private void assertThatAllFieldsMustBeEmpty(Board board) {
