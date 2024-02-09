@@ -11,6 +11,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ApplicationTest {
 
     private static final int DEFAULT_SIZE = 3;
+    private static FieldState currentPlayer = FieldState.Y;
+
+    private static FieldState nextFieldState() {
+        if (currentPlayer == FieldState.X) {
+            currentPlayer = FieldState.Y;
+            return currentPlayer;
+        }
+        currentPlayer = FieldState.X;
+        return currentPlayer;
+    }
 
     @Test
     void startGameThenEmpty3x3BoardIsReturned() {
@@ -32,6 +42,22 @@ class ApplicationTest {
         Field expectedField = new Field(1, 1, FieldState.X);
         assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField);
         int expectedEmptyFields = 8;
+        int actualEmptyFields = countEmptyFields(sut);
+        assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
+    }
+
+    @Test
+    void secondInputWhenOnEmptyFieldThenYisOnThisField() {
+        Board sut = Board.of(DEFAULT_SIZE);
+
+        sut.play(1, 1);
+        sut.play(1, 2);
+
+        Field expectedField1 = new Field(1, 1, FieldState.X);
+        assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField1);
+        Field expectedField2 = new Field(1, 2, FieldState.Y);
+        assertThat(sut.fieldAt(1, 2)).isEqualTo(expectedField2);
+        int expectedEmptyFields = 7;
         int actualEmptyFields = countEmptyFields(sut);
         assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
     }
@@ -86,7 +112,7 @@ class ApplicationTest {
     }
 
     private enum FieldState {
-        X, EMPTY
+        X, Y, EMPTY
     }
 
     private static final class Board {
@@ -131,7 +157,7 @@ class ApplicationTest {
         }
 
         public void play(int x, int y) {
-            value[x - 1][y - 1] = FieldState.X;
+            value[x - 1][y - 1] = nextFieldState();
         }
 
         public Field fieldAt(int x, int y) {
