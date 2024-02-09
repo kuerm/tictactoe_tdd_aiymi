@@ -30,7 +30,7 @@ class ApplicationTest {
         sut.play(1, 1);
 
         Field expectedField = new Field(1, 1, FieldState.X);
-        assertThat(sut.field(1, 1)).isEqualTo(expectedField);
+        assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField);
         int expectedEmptyFields = 8;
         int actualEmptyFields = countEmptyFields(sut);
         assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
@@ -40,7 +40,7 @@ class ApplicationTest {
     void fieldAtWhenEmptyBoardThenReturnFieldWithEmptyState() {
         Board sut = Board.of(DEFAULT_SIZE);
 
-        Field actual = sut.field(1, 1);
+        Field actual = sut.fieldAt(1, 1);
 
         assertThat(actual.state()).isEqualTo(FieldState.EMPTY);
         assertThat(actual.x()).isEqualTo(1);
@@ -53,7 +53,7 @@ class ApplicationTest {
         while (x <= board.size()) {
             int y = 1;
             while (y <= board.size()) {
-                actualEmptyFields += board.field(x, y).state() == FieldState.EMPTY ? 1 : 0;
+                actualEmptyFields += board.fieldAt(x, y).state() == FieldState.EMPTY ? 1 : 0;
                 ++y;
             }
             ++x;
@@ -66,7 +66,7 @@ class ApplicationTest {
         int minimumFieldIndex = 1;
         for (int x = minimumFieldIndex; x <= size; ++x) {
             for (int y = minimumFieldIndex; y <= size; ++y) {
-                assertThat(board.field(x, y).state()).isEqualTo(FieldState.EMPTY);
+                assertThat(board.fieldAt(x, y).state()).isEqualTo(FieldState.EMPTY);
             }
         }
     }
@@ -120,7 +120,7 @@ class ApplicationTest {
             value[x - 1][y - 1] = FieldState.X;
         }
 
-        public Field field(int x, int y) {
+        public Field fieldAt(int x, int y) {
             return new Field(x, y, value[x - 1][y - 1]);
         }
     }
