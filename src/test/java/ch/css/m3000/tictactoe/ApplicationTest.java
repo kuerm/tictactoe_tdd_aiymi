@@ -8,7 +8,7 @@ class ApplicationTest {
     @Test
     void startGameThenEmpty3x3BoardIsReturned() {
         int size = 3;
-        int[][] board = createBoard(size);
+        int[][] board = Board.of(size);
 
         int actualWidth = length(new Board(board));
 
@@ -20,11 +20,11 @@ class ApplicationTest {
         return board.size();
     }
 
-    private int[][] createBoard(int size) {
-        return new int[size][size];
-    }
-
     private record Board(int[][] board) {
+        private static int[][] of(int size) {
+            return new int[size][size];
+        }
+
         public int size() {
             return board.length;
         }
