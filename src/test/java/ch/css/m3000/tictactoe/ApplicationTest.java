@@ -14,7 +14,7 @@ class ApplicationTest {
         int size = 3;
         Board sut = Board.of(size);
 
-        int actualSize = sut.length();
+        int actualSize = sut.size();
 
         int expectedSize = 3;
         assertThat(actualSize).isEqualTo(expectedSize);
@@ -34,12 +34,11 @@ class ApplicationTest {
     }
 
     private int countEmptyFields(Board board) {
-        int size = 3;
         int actualEmptyFields = 0;
         int x = 1;
-        while (x <= size) {
+        while (x <= board.size()) {
             int y = 1;
-            while (y <= size) {
+            while (y <= board.size()) {
                 actualEmptyFields += board.fieldAt(x, y) == Field.EMPTY ? 1 : 0;
                 ++y;
             }
@@ -77,10 +76,6 @@ class ApplicationTest {
             return new Board(fields);
         }
 
-        private int length() {
-            return size();
-        }
-
         public int size() {
             return value.length;
         }
@@ -99,7 +94,7 @@ class ApplicationTest {
 
         @Override
         public int hashCode() {
-            return Objects.hash(value);
+            return Objects.hash((Object) value);
         }
 
         @Override
