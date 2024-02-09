@@ -37,6 +37,20 @@ class ApplicationTest {
     }
 
     @Test
+    void secondInputWhenOnNoneEmptyFieldThenDoNothing() {
+        Board sut = Board.of(DEFAULT_SIZE);
+
+        sut.play(1, 1);
+        sut.play(1, 1);
+
+        Field expectedField = new Field(1, 1, FieldState.X);
+        assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField);
+        int expectedEmptyFields = 8;
+        int actualEmptyFields = countEmptyFields(sut);
+        assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
+    }
+
+    @Test
     void fieldAtWhenEmptyBoardThenReturnFieldWithEmptyState() {
         Board sut = Board.of(DEFAULT_SIZE);
 
