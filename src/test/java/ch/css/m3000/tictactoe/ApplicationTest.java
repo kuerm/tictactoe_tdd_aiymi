@@ -18,17 +18,27 @@ class ApplicationTest {
 
         int expectedSize = 3;
         assertThat(actualSize).isEqualTo(expectedSize);
+        Field expectedField = Field.EMPTY;
+        for (int x = 1; x <= 3; ++x) {
+            for (int y = 1; y <= 3; ++y) {
+                assertThat(board.fieldAt(x, y)).isEqualTo(expectedField);
+            }
+        }
+    }
+
+    private enum Field {
+        EMPTY
     }
 
     private static final class Board {
-        private final int[][] value;
+        private final Field[][] value;
 
-        private Board(int[][] value) {
+        private Board(Field[][] value) {
             this.value = value;
         }
 
         private static Board of(int size) {
-            return new Board(new int[size][size]);
+            return new Board(new Field[size][size]);
         }
 
         private int length() {
@@ -61,5 +71,8 @@ class ApplicationTest {
             return ReflectionToStringBuilder.toString(this);
         }
 
+        public Field fieldAt(int x, int y) {
+            return Field.EMPTY;
+        }
     }
 }
