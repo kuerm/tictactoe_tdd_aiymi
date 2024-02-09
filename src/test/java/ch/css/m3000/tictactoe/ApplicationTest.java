@@ -8,11 +8,15 @@ class ApplicationTest {
     @Test
     void startGameThenEmpty3x3BoardIsReturned() {
         int size = 3;
-        int[][] board = new int[size][size];
+        int[][] board = createBoard(size);
 
         int actualWidth = board.length;
 
         int expectedWidth = 3;
         assertThat(actualWidth).isEqualTo(expectedWidth);
+    }
+
+    private int[][] createBoard(int size) {
+        return new int[size][size];
     }
 }
