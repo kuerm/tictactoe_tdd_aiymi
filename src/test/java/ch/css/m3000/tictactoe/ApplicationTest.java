@@ -1,6 +1,7 @@
 package ch.css.m3000.tictactoe;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -12,6 +13,7 @@ class ApplicationTest {
 
     private static final int DEFAULT_SIZE = 3;
     private static FieldState currentPlayer = FieldState.Y;
+    private Board sut;
 
     private static FieldState nextFieldState() {
         if (currentPlayer == FieldState.X) {
@@ -22,10 +24,13 @@ class ApplicationTest {
         return currentPlayer;
     }
 
+    @BeforeEach
+    void setup() {
+        sut = Board.of(DEFAULT_SIZE);
+    }
+
     @Test
     void startGameThenEmpty3x3BoardIsReturned() {
-        Board sut = Board.of(DEFAULT_SIZE);
-
         int actualSize = sut.size();
 
         int expectedSize = 3;
@@ -35,8 +40,6 @@ class ApplicationTest {
 
     @Test
     void firstInput1x1ThenReturnBoardWithOneXAnd8Empty() {
-        Board sut = Board.of(DEFAULT_SIZE);
-
         sut.play(1, 1);
 
         Field expectedField = new Field(1, 1, FieldState.X);
@@ -48,8 +51,6 @@ class ApplicationTest {
 
     @Test
     void secondInputWhenOnEmptyFieldThenYisOnThisField() {
-        Board sut = Board.of(DEFAULT_SIZE);
-
         sut.play(1, 1);
         sut.play(1, 2);
 
@@ -64,8 +65,6 @@ class ApplicationTest {
 
     @Test
     void secondInputWhenOnNoneEmptyFieldThenDoNothing() {
-        Board sut = Board.of(DEFAULT_SIZE);
-
         sut.play(1, 1);
         sut.play(1, 1);
 
@@ -78,8 +77,6 @@ class ApplicationTest {
 
     @Test
     void fieldAtWhenEmptyBoardThenReturnFieldWithEmptyState() {
-        Board sut = Board.of(DEFAULT_SIZE);
-
         Field actual = sut.fieldAt(1, 1);
 
         assertThat(actual.state()).isEqualTo(FieldState.EMPTY);
