@@ -53,7 +53,7 @@ class ApplicationTest {
         while (x <= board.size()) {
             int y = 1;
             while (y <= board.size()) {
-                actualEmptyFields += board.fieldAt(x, y).state() == FieldState.EMPTY ? 1 : 0;
+                actualEmptyFields += board.fieldAt(x, y).state().equals(FieldState.EMPTY) ? 1 : 0;
                 ++y;
             }
             ++x;
