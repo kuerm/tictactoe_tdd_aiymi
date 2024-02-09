@@ -1,6 +1,7 @@
 package ch.css.m3000.tictactoe;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +27,7 @@ class ApplicationTest {
 
     @BeforeEach
     void setup() {
+        currentPlayer = FieldState.Y;
         sut = Board.of(DEFAULT_SIZE);
     }
 
@@ -150,10 +152,13 @@ class ApplicationTest {
 
         @Override
         public String toString() {
-            return ReflectionToStringBuilder.toString(this);
+            return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
         }
 
         public void play(int x, int y) {
+            if (value[x - 1][y - 1] != FieldState.EMPTY) {
+                return;
+            }
             value[x - 1][y - 1] = nextFieldState();
         }
 
