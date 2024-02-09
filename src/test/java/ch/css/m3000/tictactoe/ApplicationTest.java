@@ -14,10 +14,10 @@ class ApplicationTest {
         int size = 3;
         Board board = Board.of(size);
 
-        int actualWidth = board.length();
+        int actualSize = board.length();
 
-        int expectedWidth = 3;
-        assertThat(actualWidth).isEqualTo(expectedWidth);
+        int expectedSize = 3;
+        assertThat(actualSize).isEqualTo(expectedSize);
     }
 
     private static final class Board {
