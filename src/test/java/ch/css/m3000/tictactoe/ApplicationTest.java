@@ -51,7 +51,7 @@ class ApplicationTest {
         while (x <= board.size()) {
             int y = 1;
             while (y <= board.size()) {
-                actualEmptyFields += board.fieldAt(x, y) == FieldState.EMPTY ? 1 : 0;
+                actualEmptyFields += board.field(x, y).state() == FieldState.EMPTY ? 1 : 0;
                 ++y;
             }
             ++x;
@@ -64,7 +64,7 @@ class ApplicationTest {
         int minimumFieldIndex = 1;
         for (int x = minimumFieldIndex; x <= size; ++x) {
             for (int y = minimumFieldIndex; y <= size; ++y) {
-                assertThat(board.fieldAt(x, y)).isEqualTo(FieldState.EMPTY);
+                assertThat(board.field(x, y).state()).isEqualTo(FieldState.EMPTY);
             }
         }
     }
@@ -112,10 +112,6 @@ class ApplicationTest {
         @Override
         public String toString() {
             return ReflectionToStringBuilder.toString(this);
-        }
-
-        public FieldState fieldAt(int x, int y) {
-            return value[x - 1][y - 1];
         }
 
         public void play(int x, int y) {
