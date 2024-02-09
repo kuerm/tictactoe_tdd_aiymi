@@ -27,7 +27,8 @@ class ApplicationTest {
 
         sut.play(1, 1);
 
-        assertThat(sut.fieldAt(1, 1)).isEqualTo(FieldState.X);
+        Field expectedField = new Field(1, 1, FieldState.X);
+        assertThat(sut.field(1, 1)).isEqualTo(expectedField);
         int expectedEmptyFields = 8;
         int actualEmptyFields = countEmptyFields(sut);
         assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
@@ -122,7 +123,7 @@ class ApplicationTest {
         }
 
         public Field field(int x, int y) {
-            return new Field(x, y, value[x][y]);
+            return new Field(x, y, value[x - 1][y - 1]);
         }
     }
 
