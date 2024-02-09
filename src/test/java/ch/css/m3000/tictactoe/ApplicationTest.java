@@ -10,19 +10,19 @@ class ApplicationTest {
         int size = 3;
         int[][] board = Board.of(size);
 
-        int actualWidth = length(new Board(board));
+        int actualWidth = new Board(board).length();
 
         int expectedWidth = 3;
         assertThat(actualWidth).isEqualTo(expectedWidth);
     }
 
-    private int length(Board board) {
-        return board.size();
-    }
-
     private record Board(int[][] board) {
         private static int[][] of(int size) {
             return new int[size][size];
+        }
+
+        private int length() {
+            return size();
         }
 
         public int size() {
