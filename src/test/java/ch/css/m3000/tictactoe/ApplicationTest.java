@@ -18,10 +18,14 @@ class ApplicationTest {
 
         int expectedSize = 3;
         assertThat(actualSize).isEqualTo(expectedSize);
-        Field expectedField = Field.EMPTY;
-        for (int x = 1; x <= 3; ++x) {
-            for (int y = 1; y <= 3; ++y) {
-                assertThat(board.fieldAt(x, y)).isEqualTo(expectedField);
+        assertThatAllFieldsMustBeEmpty(size, board);
+    }
+
+    private void assertThatAllFieldsMustBeEmpty(int size, Board board) {
+        int minimumFieldIndex = 1;
+        for (int x = minimumFieldIndex; x <= size; ++x) {
+            for (int y = minimumFieldIndex; y <= size; ++y) {
+                assertThat(board.fieldAt(x, y)).isEqualTo(Field.EMPTY);
             }
         }
     }
