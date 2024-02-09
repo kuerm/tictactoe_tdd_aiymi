@@ -27,10 +27,21 @@ class ApplicationTest {
 
         sut.play(1, 1);
 
-        assertThat(sut.fieldAt(1, 1)).isEqualTo(Field.X);
+        assertThat(sut.fieldAt(1, 1)).isEqualTo(FieldState.X);
         int expectedEmptyFields = 8;
         int actualEmptyFields = countEmptyFields(sut);
         assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
+    }
+
+    @Test
+    void fieldAtWhenEmptyBoardThenReturnFieldWithEmptyState() {
+        Board sut = Board.of(3);
+
+        Field actual = sut.field(1, 1);
+
+        assertThat(actual.state()).isEqualTo(FieldState.EMPTY);
+        assertThat(actual.x()).isEqualTo(1);
+        assertThat(actual.y()).isEqualTo(1);
     }
 
     private int countEmptyFields(Board board) {
@@ -39,7 +50,7 @@ class ApplicationTest {
         while (x <= board.size()) {
             int y = 1;
             while (y <= board.size()) {
-                actualEmptyFields += board.fieldAt(x, y) == Field.EMPTY ? 1 : 0;
+                actualEmptyFields += board.fieldAt(x, y) == FieldState.EMPTY ? 1 : 0;
                 ++y;
             }
             ++x;
@@ -52,28 +63,28 @@ class ApplicationTest {
         int minimumFieldIndex = 1;
         for (int x = minimumFieldIndex; x <= size; ++x) {
             for (int y = minimumFieldIndex; y <= size; ++y) {
-                assertThat(board.fieldAt(x, y)).isEqualTo(Field.EMPTY);
+                assertThat(board.fieldAt(x, y)).isEqualTo(FieldState.EMPTY);
             }
         }
     }
 
-    private enum Field {
+    private enum FieldState {
         X, EMPTY
     }
 
     private static final class Board {
-        private final Field[][] value;
+        private final FieldState[][] value;
 
-        private Board(Field[][] value) {
+        private Board(FieldState[][] value) {
             this.value = value;
         }
 
         private static Board of(int size) {
-            Field[][] fields = new Field[size][size];
-            for (Field[] field : fields) {
-                Arrays.fill(field, Field.EMPTY);
+            FieldState[][] fieldStates = new FieldState[size][size];
+            for (FieldState[] fieldState : fieldStates) {
+                Arrays.fill(fieldState, FieldState.EMPTY);
             }
-            return new Board(fields);
+            return new Board(fieldStates);
         }
 
         public int size() {
@@ -102,12 +113,19 @@ class ApplicationTest {
             return ReflectionToStringBuilder.toString(this);
         }
 
-        public Field fieldAt(int x, int y) {
+        public FieldState fieldAt(int x, int y) {
             return value[x - 1][y - 1];
         }
 
         public void play(int x, int y) {
-            value[x - 1][y - 1] = Field.X;
+            value[x - 1][y - 1] = FieldState.X;
         }
+
+        public Field field(int x, int y) {
+            return new Field(x, y, value[x][y]);
+        }
+    }
+
+    private record Field(int x, int y, FieldState state) {
     }
 }
