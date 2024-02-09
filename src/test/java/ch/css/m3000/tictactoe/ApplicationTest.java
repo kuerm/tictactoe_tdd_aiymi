@@ -17,13 +17,16 @@ class ApplicationTest {
     }
 
     private int length(Board board) {
-        return board.board().length;
+        return board.size();
     }
 
     private int[][] createBoard(int size) {
         return new int[size][size];
     }
 
-    private static record Board(int[][] board) {
+    private record Board(int[][] board) {
+        public int size() {
+            return board.length;
+        }
     }
 }
