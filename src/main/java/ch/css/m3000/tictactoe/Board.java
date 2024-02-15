@@ -23,7 +23,7 @@ public final class Board {
         return new Board(fieldStates);
     }
 
-    private static FieldState nextFieldState() {
+    private FieldState nextFieldState() {
         if (currentPlayer == FieldState.X) {
             currentPlayer = FieldState.Y;
             return currentPlayer;
@@ -34,6 +34,25 @@ public final class Board {
 
     public int size() {
         return value.length;
+    }
+
+    public void play(int x, int y) {
+        if (fieldAt(x, y).state() != FieldState.EMPTY) {
+            return;
+        }
+        fillPlayedFieldState(x, y);
+    }
+
+    private void fillPlayedFieldState(int x, int y) {
+        value[x - 1][y - 1] = nextFieldState();
+    }
+
+    public Field fieldAt(int x, int y) {
+        return new Field(x, y, fieldStateAt(x, y));
+    }
+
+    private FieldState fieldStateAt(int x, int y) {
+        return value[x - 1][y - 1];
     }
 
     @Override
@@ -56,25 +75,6 @@ public final class Board {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-
-    public void play(int x, int y) {
-        if (fieldAt(x, y).state() != FieldState.EMPTY) {
-            return;
-        }
-        setFieldState(x, y, nextFieldState());
-    }
-
-    private void setFieldState(int x, int y, FieldState fieldState) {
-        value[x - 1][y - 1] = fieldState;
-    }
-
-    public Field fieldAt(int x, int y) {
-        return new Field(x, y, fieldStateAt(x, y));
-    }
-
-    private FieldState fieldStateAt(int x, int y) {
-        return value[x - 1][y - 1];
     }
 
 }
