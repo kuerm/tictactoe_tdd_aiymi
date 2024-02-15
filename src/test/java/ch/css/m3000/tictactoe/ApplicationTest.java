@@ -13,21 +13,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ApplicationTest {
 
     private static final int DEFAULT_SIZE = 3;
-    private static FieldState currentPlayer = FieldState.Y;
     private Board sut;
-
-    private static FieldState nextFieldState() {
-        if (currentPlayer == FieldState.X) {
-            currentPlayer = FieldState.Y;
-            return currentPlayer;
-        }
-        currentPlayer = FieldState.X;
-        return currentPlayer;
-    }
 
     @BeforeEach
     void setup() {
-        currentPlayer = FieldState.Y;
         sut = Board.of(DEFAULT_SIZE);
     }
 
@@ -110,19 +99,30 @@ class ApplicationTest {
         }
     }
 
-    private static final class Board {
+    public static final class Board {
+        private static FieldState currentPlayer;
         private final FieldState[][] value;
 
         private Board(FieldState[][] value) {
             this.value = value;
         }
 
-        private static Board of(int size) {
+        public static Board of(int size) {
+            currentPlayer = FieldState.Y;
             FieldState[][] fieldStates = new FieldState[size][size];
             for (FieldState[] fieldState : fieldStates) {
                 Arrays.fill(fieldState, FieldState.EMPTY);
             }
             return new Board(fieldStates);
+        }
+
+        private static FieldState nextFieldState() {
+            if (currentPlayer == FieldState.X) {
+                currentPlayer = FieldState.Y;
+                return currentPlayer;
+            }
+            currentPlayer = FieldState.X;
+            return currentPlayer;
         }
 
         public int size() {
