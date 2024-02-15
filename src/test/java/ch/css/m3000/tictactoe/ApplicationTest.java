@@ -156,15 +156,24 @@ class ApplicationTest {
         }
 
         public void play(int x, int y) {
-            if (value[x - 1][y - 1] != FieldState.EMPTY) {
+            if (fieldAt(x, y).state() != FieldState.EMPTY) {
                 return;
             }
-            value[x - 1][y - 1] = nextFieldState();
+            setFieldState(x, y, nextFieldState());
+        }
+
+        private void setFieldState(int x, int y, FieldState fieldState) {
+            value[x - 1][y - 1] = fieldState;
         }
 
         public Field fieldAt(int x, int y) {
-            return new Field(x, y, value[x - 1][y - 1]);
+            return new Field(x, y, fieldStateAt(x, y));
         }
+
+        private FieldState fieldStateAt(int x, int y) {
+            return value[x - 1][y - 1];
+        }
+
     }
 
     private record Field(int x, int y, FieldState state) {
