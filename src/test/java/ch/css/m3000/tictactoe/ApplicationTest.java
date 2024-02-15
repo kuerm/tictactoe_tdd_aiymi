@@ -13,21 +13,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ApplicationTest {
 
     private static final int DEFAULT_SIZE = 3;
-    private static FieldState currentPlayer = FieldState.Y;
+    private static FieldState currentPlayer = ch.css.m3000.tictactoe.FieldState.Y;
     private Board sut;
 
     private static FieldState nextFieldState() {
-        if (currentPlayer == FieldState.X) {
-            currentPlayer = FieldState.Y;
+        if (currentPlayer == ch.css.m3000.tictactoe.FieldState.X) {
+            currentPlayer = ch.css.m3000.tictactoe.FieldState.Y;
             return currentPlayer;
         }
-        currentPlayer = FieldState.X;
+        currentPlayer = ch.css.m3000.tictactoe.FieldState.X;
         return currentPlayer;
     }
 
     @BeforeEach
     void setup() {
-        currentPlayer = FieldState.Y;
+        currentPlayer = ch.css.m3000.tictactoe.FieldState.Y;
         sut = Board.of(DEFAULT_SIZE);
     }
 
@@ -44,7 +44,7 @@ class ApplicationTest {
     void firstInput1x1ThenReturnBoardWithOneXAnd8Empty() {
         sut.play(1, 1);
 
-        Field expectedField = new Field(1, 1, FieldState.X);
+        Field expectedField = new Field(1, 1, ch.css.m3000.tictactoe.FieldState.X);
         assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField);
         int expectedEmptyFields = 8;
         int actualEmptyFields = countEmptyFields(sut);
@@ -56,9 +56,9 @@ class ApplicationTest {
         sut.play(1, 1);
         sut.play(1, 2);
 
-        Field expectedField1 = new Field(1, 1, FieldState.X);
+        Field expectedField1 = new Field(1, 1, ch.css.m3000.tictactoe.FieldState.X);
         assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField1);
-        Field expectedField2 = new Field(1, 2, FieldState.Y);
+        Field expectedField2 = new Field(1, 2, ch.css.m3000.tictactoe.FieldState.Y);
         assertThat(sut.fieldAt(1, 2)).isEqualTo(expectedField2);
         int expectedEmptyFields = 7;
         int actualEmptyFields = countEmptyFields(sut);
@@ -70,7 +70,7 @@ class ApplicationTest {
         sut.play(1, 1);
         sut.play(1, 1);
 
-        Field expectedField = new Field(1, 1, FieldState.X);
+        Field expectedField = new Field(1, 1, ch.css.m3000.tictactoe.FieldState.X);
         assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField);
         int expectedEmptyFields = 8;
         int actualEmptyFields = countEmptyFields(sut);
@@ -81,7 +81,7 @@ class ApplicationTest {
     void fieldAtWhenEmptyBoardThenReturnFieldWithEmptyState() {
         Field actual = sut.fieldAt(1, 1);
 
-        assertThat(actual.state()).isEqualTo(FieldState.EMPTY);
+        assertThat(actual.state()).isEqualTo(ch.css.m3000.tictactoe.FieldState.EMPTY);
         assertThat(actual.x()).isEqualTo(1);
         assertThat(actual.y()).isEqualTo(1);
     }
@@ -92,7 +92,7 @@ class ApplicationTest {
         while (x <= board.size()) {
             int y = 1;
             while (y <= board.size()) {
-                actualEmptyFields += board.fieldAt(x, y).state().equals(FieldState.EMPTY) ? 1 : 0;
+                actualEmptyFields += board.fieldAt(x, y).state().equals(ch.css.m3000.tictactoe.FieldState.EMPTY) ? 1 : 0;
                 ++y;
             }
             ++x;
@@ -105,13 +105,9 @@ class ApplicationTest {
         int minimumFieldIndex = 1;
         for (int x = minimumFieldIndex; x <= size; ++x) {
             for (int y = minimumFieldIndex; y <= size; ++y) {
-                assertThat(board.fieldAt(x, y).state()).isEqualTo(FieldState.EMPTY);
+                assertThat(board.fieldAt(x, y).state()).isEqualTo(ch.css.m3000.tictactoe.FieldState.EMPTY);
             }
         }
-    }
-
-    private enum FieldState {
-        X, Y, EMPTY
     }
 
     private static final class Board {
@@ -124,7 +120,7 @@ class ApplicationTest {
         private static Board of(int size) {
             FieldState[][] fieldStates = new FieldState[size][size];
             for (FieldState[] fieldState : fieldStates) {
-                Arrays.fill(fieldState, FieldState.EMPTY);
+                Arrays.fill(fieldState, ch.css.m3000.tictactoe.FieldState.EMPTY);
             }
             return new Board(fieldStates);
         }
@@ -156,7 +152,7 @@ class ApplicationTest {
         }
 
         public void play(int x, int y) {
-            if (fieldAt(x, y).state() != FieldState.EMPTY) {
+            if (fieldAt(x, y).state() != ch.css.m3000.tictactoe.FieldState.EMPTY) {
                 return;
             }
             setFieldState(x, y, nextFieldState());
