@@ -34,6 +34,26 @@ class ApplicationTest {
     }
 
     @Test
+    void isEndGameWhenSize4BoardAndPlayedWellThenReturnTrue() {
+        sut = Board.of(4);
+        int actualSize = sut.size();
+
+        int expectedSize = 4;
+        assertThat(actualSize).isEqualTo(expectedSize);
+        assertThatAllFieldsMustBeEmpty(sut);
+
+        sut.play(1, 1);
+        sut.play(1, 2);
+        sut.play(2, 1);
+        sut.play(2, 2);
+        sut.play(3, 1);
+        sut.play(3, 2);
+        sut.play(4, 1);
+
+        assertThat(sut.isEndGame()).isTrue();
+    }
+
+    @Test
     void startGameThenEmpty3x3BoardIsReturned() {
         int actualSize = sut.size();
 
