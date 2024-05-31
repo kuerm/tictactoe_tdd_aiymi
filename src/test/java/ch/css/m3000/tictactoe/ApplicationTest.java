@@ -156,6 +156,32 @@ class ApplicationTest {
         assertThat(actual).isTrue();
     }
 
+    @Test
+    void isEndGameWhenDiagonalIsStraightThenReturnTrue() {
+        sut.play(1, 1);
+        sut.play(2, 1);
+        sut.play(2, 2);
+        sut.play(1, 2);
+        sut.play(3, 3);
+
+        boolean actual = sut.isEndGame();
+
+        assertThat(actual).isTrue();
+    }
+    
+    @Test
+    void isEndGameWhenDiagonal2IsStraightThenReturnTrue() {
+        sut.play(3, 1);
+        sut.play(2, 1);
+        sut.play(2, 2);
+        sut.play(3, 2);
+        sut.play(1, 3);
+
+        boolean actual = sut.isEndGame();
+
+        assertThat(actual).isTrue();
+    }
+
     private void assertThatAllFieldsMustBeEmpty(Board board) {
         int size = board.size();
         int minimumFieldIndex = 1;
