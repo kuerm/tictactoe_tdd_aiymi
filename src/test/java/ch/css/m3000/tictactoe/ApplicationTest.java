@@ -3,6 +3,8 @@ package ch.css.m3000.tictactoe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.stream.IntStream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ApplicationTest {
@@ -62,12 +64,15 @@ class ApplicationTest {
     }
 
     @Test
-    void fieldAtWhenEmptyBoardThenReturnFieldWithEmptyState() {
-        Field actual = sut.fieldAt(1, 1);
+    void fieldAtWhenEmptyBoardThenReturnAllFieldsHaveEmptyState() {
+        int minimumFieldIndex = 1;
+        IntStream.rangeClosed(minimumFieldIndex, DEFAULT_SIZE)
+                .forEach(y -> IntStream.rangeClosed(minimumFieldIndex, DEFAULT_SIZE)
+                        .forEach(x -> {
+                            Field actual = sut.fieldAt(x, y);
 
-        assertThat(actual.state()).isEqualTo(FieldState.EMPTY);
-        assertThat(actual.x()).isEqualTo(1);
-        assertThat(actual.y()).isEqualTo(1);
+                            assertThat(actual.state()).isEqualTo(FieldState.EMPTY);
+                        }));
     }
 
     private int countEmptyFields(Board board) {
