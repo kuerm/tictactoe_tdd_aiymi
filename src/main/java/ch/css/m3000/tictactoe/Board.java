@@ -23,6 +23,10 @@ public final class Board {
         return new Board(fieldStates);
     }
 
+    public boolean isEndGame() {
+        return countEmptyFields() == 0;
+    }
+
     private FieldState nextFieldState() {
         if (currentPlayer == FieldState.X) {
             currentPlayer = FieldState.Y;
@@ -37,10 +41,19 @@ public final class Board {
     }
 
     public void play(int x, int y) {
-        if (fieldAt(x, y).state() != FieldState.EMPTY) {
+        if (isOutOfBounds(x, y) || isNotEmpty(x, y)) {
             return;
         }
         fillPlayedFieldState(x, y);
+    }
+
+    private boolean isOutOfBounds(int x, int y) {
+        int size = size();
+        return x < 1 || x > size || y < 1 || y > size;
+    }
+
+    private boolean isNotEmpty(int x, int y) {
+        return fieldAt(x, y).state() != FieldState.EMPTY;
     }
 
     private void fillPlayedFieldState(int x, int y) {
@@ -77,4 +90,17 @@ public final class Board {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
+    int countEmptyFields() {
+        int actualEmptyFields = 0;
+        int x = 1;
+        while (x <= size()) {
+            int y = 1;
+            while (y <= size()) {
+                actualEmptyFields += fieldAt(x, y).state().equals(FieldState.EMPTY) ? 1 : 0;
+                ++y;
+            }
+            ++x;
+        }
+        return actualEmptyFields;
+    }
 }

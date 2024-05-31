@@ -33,7 +33,7 @@ class ApplicationTest {
         Field expectedField = new Field(1, 1, FieldState.X);
         assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField);
         int expectedEmptyFields = 8;
-        int actualEmptyFields = countEmptyFields(sut);
+        int actualEmptyFields = sut.countEmptyFields();
         assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
     }
 
@@ -47,7 +47,7 @@ class ApplicationTest {
         Field expectedField2 = new Field(1, 2, FieldState.Y);
         assertThat(sut.fieldAt(1, 2)).isEqualTo(expectedField2);
         int expectedEmptyFields = 7;
-        int actualEmptyFields = countEmptyFields(sut);
+        int actualEmptyFields = sut.countEmptyFields();
         assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
     }
 
@@ -59,7 +59,7 @@ class ApplicationTest {
         Field expectedField = new Field(1, 1, FieldState.X);
         assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField);
         int expectedEmptyFields = 8;
-        int actualEmptyFields = countEmptyFields(sut);
+        int actualEmptyFields = sut.countEmptyFields();
         assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
     }
 
@@ -75,19 +75,39 @@ class ApplicationTest {
                         }));
     }
 
-    private int countEmptyFields(Board board) {
-        int actualEmptyFields = 0;
+    @Test
+    void isEndGameWhenAllFieldsAreFilledThenReturnTrue() {
         int x = 1;
-        while (x <= board.size()) {
+        while (x <= DEFAULT_SIZE) {
             int y = 1;
-            while (y <= board.size()) {
-                actualEmptyFields += board.fieldAt(x, y).state().equals(FieldState.EMPTY) ? 1 : 0;
+            while (y <= DEFAULT_SIZE) {
+                sut.play(x, y);
                 ++y;
             }
             ++x;
         }
-        return actualEmptyFields;
+
+        boolean actual = sut.isEndGame();
+
+        assertThat(actual).isTrue();
     }
+
+    @Test
+    void isEndGameWhenNotAllFieldsAreFilledThenReturnFalse() {
+        sut.play(1, 3);
+
+        boolean actual = sut.isEndGame();
+
+        assertThat(actual).isFalse();
+    }
+
+    @Test
+    void playWhenCoordinatesAreInvalidThenDoNothing() {
+        sut.play(0, 0);
+
+        assertThatAllFieldsMustBeEmpty(sut);
+    }
+
 
     private void assertThatAllFieldsMustBeEmpty(Board board) {
         int size = board.size();
