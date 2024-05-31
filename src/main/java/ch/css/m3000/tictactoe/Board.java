@@ -24,7 +24,47 @@ public final class Board {
     }
 
     public boolean isEndGame() {
-        return countEmptyFields() == 0;
+        return countEmptyFields() == 0 || isColumnStraight() || isRowStraight();
+    }
+
+    private boolean isRowStraight() {
+        int size = size();
+        for (int y = 1; y <= size; ++y) {
+            FieldState firstFieldInRow = fieldAt(1, y).state();
+            if (firstFieldInRow != FieldState.EMPTY) {
+                boolean isStraight = true;
+                for (int x = 2; x <= size; ++x) {
+                    if (fieldAt(x, y).state() != firstFieldInRow) {
+                        isStraight = false;
+                        break;
+                    }
+                }
+                if (isStraight) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isColumnStraight() {
+        int size = size();
+        for (int x = 1; x <= size; ++x) {
+            FieldState firstFieldInColumn = fieldAt(x, 1).state();
+            if (firstFieldInColumn != FieldState.EMPTY) {
+                boolean isStraight = true;
+                for (int y = 2; y <= size; ++y) {
+                    if (fieldAt(x, y).state() != firstFieldInColumn) {
+                        isStraight = false;
+                        break;
+                    }
+                }
+                if (isStraight) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private FieldState nextFieldState() {

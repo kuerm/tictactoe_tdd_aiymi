@@ -108,6 +108,53 @@ class ApplicationTest {
         assertThatAllFieldsMustBeEmpty(sut);
     }
 
+    @Test
+    void isEndGameWhenNoRowIsStraightThenReturnFalse() {
+        sut.play(1, 3);
+
+        boolean actual = sut.isEndGame();
+
+        assertThat(actual).isFalse();
+    }
+
+    @Test
+    void isEndGameWhenFirstColumnIsStraightThenReturnTrue() {
+        sut.play(1, 1);
+        sut.play(2, 1);
+        sut.play(1, 2);
+        sut.play(2, 3);
+        sut.play(1, 3);
+
+        boolean actual = sut.isEndGame();
+
+        assertThat(actual).isTrue();
+    }
+
+    @Test
+    void isEndGameWhenSecondColumnIsStraightThenReturnTrue() {
+        sut.play(2, 1);
+        sut.play(3, 1);
+        sut.play(2, 2);
+        sut.play(1, 2);
+        sut.play(2, 3);
+
+        boolean actual = sut.isEndGame();
+
+        assertThat(actual).isTrue();
+    }
+
+    @Test
+    void isEndGameWhenFirstRowIsStraightThenReturnTrue() {
+        sut.play(1, 1);
+        sut.play(1, 2);
+        sut.play(2, 1);
+        sut.play(1, 3);
+        sut.play(3, 1);
+
+        boolean actual = sut.isEndGame();
+
+        assertThat(actual).isTrue();
+    }
 
     private void assertThatAllFieldsMustBeEmpty(Board board) {
         int size = board.size();
