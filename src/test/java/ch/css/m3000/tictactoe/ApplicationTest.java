@@ -18,11 +18,12 @@ class ApplicationTest {
 
     static Stream<Arguments> provideEndGameScenarios() {
         return Stream.of(
-                Arguments.of(new int[][]{{1, 1}, {2, 1}, {1, 2}, {2, 3}, {1, 3}}, true), // FirstColumnIsStraight
-                Arguments.of(new int[][]{{2, 1}, {3, 1}, {2, 2}, {1, 2}, {2, 3}}, true), // SecondColumnIsStraight
-                Arguments.of(new int[][]{{1, 1}, {1, 2}, {2, 1}, {1, 3}, {3, 1}}, true), // FirstRowIsStraight
-                Arguments.of(new int[][]{{1, 1}, {2, 1}, {2, 2}, {1, 2}, {3, 3}}, true), // DiagonalIsStraight
-                Arguments.of(new int[][]{{3, 1}, {2, 1}, {2, 2}, {3, 2}, {1, 3}}, true), // Diagonal2IsStraight
+                Arguments.of(new int[][]{{1, 1}, {2, 1}, {1, 2}, {2, 3}, {1, 3}}, true), // FirstRowIsStraight
+                Arguments.of(new int[][]{{2, 1}, {3, 1}, {2, 2}, {1, 2}, {2, 3}}, true), // SecondRowIsStraight
+                Arguments.of(new int[][]{{1, 1}, {1, 2}, {2, 1}, {1, 3}, {3, 1}}, true), // FirstColumnIsStraight
+                Arguments.of(new int[][]{{1, 2}, {2, 2}, {1, 1}, {2, 1}, {1, 3}}, true), // SecondColumnIsStraight
+                Arguments.of(new int[][]{{1, 1}, {2, 1}, {2, 2}, {1, 2}, {3, 3}}, true), // MainDiagonalIsStraight
+                Arguments.of(new int[][]{{3, 1}, {2, 1}, {2, 2}, {3, 2}, {1, 3}}, true), // SecondDiagonalIsStraight
                 Arguments.of(new int[][]{{1, 3}}, false) // NoRowIsStraight
         );
     }
