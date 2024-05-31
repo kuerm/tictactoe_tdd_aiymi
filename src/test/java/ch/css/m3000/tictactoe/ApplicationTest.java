@@ -44,7 +44,7 @@ class ApplicationTest {
 
         Field expectedField1 = new Field(1, 1, FieldState.X);
         assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField1);
-        Field expectedField2 = new Field(1, 2, FieldState.Y);
+        Field expectedField2 = new Field(1, 2, FieldState.O);
         assertThat(sut.fieldAt(1, 2)).isEqualTo(expectedField2);
         int expectedEmptyFields = 7;
         int actualEmptyFields = sut.countEmptyFields();
@@ -168,7 +168,7 @@ class ApplicationTest {
 
         assertThat(actual).isTrue();
     }
-    
+
     @Test
     void isEndGameWhenDiagonal2IsStraightThenReturnTrue() {
         sut.play(3, 1);

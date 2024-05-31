@@ -15,7 +15,7 @@ public final class Board {
     }
 
     public static Board of(int size) {
-        currentPlayer = FieldState.Y;
+        currentPlayer = FieldState.O;
         FieldState[][] fieldStates = new FieldState[size][size];
         for (FieldState[] fieldState : fieldStates) {
             Arrays.fill(fieldState, FieldState.EMPTY);
@@ -106,7 +106,7 @@ public final class Board {
 
     private FieldState nextFieldState() {
         if (currentPlayer == FieldState.X) {
-            currentPlayer = FieldState.Y;
+            currentPlayer = FieldState.O;
             return currentPlayer;
         }
         currentPlayer = FieldState.X;
