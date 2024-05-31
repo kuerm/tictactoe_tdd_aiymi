@@ -27,24 +27,6 @@ public final class Board {
         return countEmptyFields() == 0 || isColumnStraight() || isRowStraight() || isDiagonalStraight() || isDiagonal2Straight();
     }
 
-    private boolean isDiagonalStraight() {
-        int size = size();
-        FieldState firstFieldInDiagonal = fieldAt(1, 1).state();
-        if (firstFieldInDiagonal != FieldState.EMPTY) {
-            boolean isStraight = true;
-            for (int i = 2; i <= size; ++i) {
-                if (fieldAt(i, i).state() != firstFieldInDiagonal) {
-                    isStraight = false;
-                    break;
-                }
-            }
-            if (isStraight) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private boolean isDiagonal2Straight() {
         int size = size();
         FieldState firstFieldInDiagonal = fieldAt(size, 1).state();
@@ -56,9 +38,7 @@ public final class Board {
                     break;
                 }
             }
-            if (isStraight) {
-                return true;
-            }
+            return isStraight;
         }
         return false;
     }
@@ -81,6 +61,22 @@ public final class Board {
             }
         }
 
+        return false;
+    }
+
+    private boolean isDiagonalStraight() {
+        int size = size();
+        FieldState firstFieldInDiagonal = fieldAt(1, 1).state();
+        if (firstFieldInDiagonal != FieldState.EMPTY) {
+            boolean isStraight = true;
+            for (int i = 2; i <= size; ++i) {
+                if (fieldAt(i, i).state() != firstFieldInDiagonal) {
+                    isStraight = false;
+                    break;
+                }
+            }
+            return isStraight;
+        }
         return false;
     }
 
