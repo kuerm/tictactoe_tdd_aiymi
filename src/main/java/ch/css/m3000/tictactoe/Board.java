@@ -180,17 +180,21 @@ public final class Board implements GameBoard {
 
     @Override
     public String toString() {
+        return getString(currentPlayer, size(), isEndGame());
+    }
+
+    private String getString(FieldState currentFieldState, int boardSize, boolean isEndGame) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("-------------\n");
-        for (int x = 0; x < size(); x++) {
-            for (int y = 0; y < size(); y++) {
+        for (int x = 0; x < boardSize; x++) {
+            for (int y = 0; y < boardSize; y++) {
                 stringBuilder.append("| %s ".formatted(fieldAt(x + 1, y + 1).state()));
             }
             stringBuilder.append("|\n");
             stringBuilder.append("-------------\n");
         }
-        if (isEndGame()) {
-            String winner = currentPlayer.equals(FieldState.X) ? "X" : "O";
+        if (isEndGame) {
+            String winner = currentFieldState.equals(FieldState.X) ? "X" : "O";
             stringBuilder.append("Player %s wins\n".formatted(winner));
         }
         return stringBuilder.toString();
