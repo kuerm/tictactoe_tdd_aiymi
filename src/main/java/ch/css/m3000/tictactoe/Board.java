@@ -47,17 +47,18 @@ public final class Board {
         int size = size();
         for (int y = 1; y <= size; ++y) {
             FieldState firstFieldInRow = fieldAt(1, y).state();
-            if (firstFieldInRow != FieldState.EMPTY) {
-                boolean isStraight = true;
-                for (int x = 2; x <= size; ++x) {
-                    if (fieldAt(x, y).state() != firstFieldInRow) {
-                        isStraight = false;
-                        break;
-                    }
+            if (firstFieldInRow == FieldState.EMPTY) {
+                continue;
+            }
+            boolean isStraight = true;
+            for (int x = 2; x <= size; ++x) {
+                if (fieldAt(x, y).state() != firstFieldInRow) {
+                    isStraight = false;
+                    break;
                 }
-                if (isStraight) {
-                    return true;
-                }
+            }
+            if (isStraight) {
+                return true;
             }
         }
 
@@ -114,10 +115,17 @@ public final class Board {
     }
 
     public void play(int x, int y) {
+        if (isEndGame()) {
+            throw new IllegalStateException("Game has already ended");
+        }
         if (isOutOfBounds(x, y) || isNotEmpty(x, y)) {
             return;
         }
         fillPlayedFieldState(x, y);
+
+        if (isEndGame()) {
+            System.out.printf("%s wins", currentPlayer);
+        }
     }
 
     private boolean isOutOfBounds(int x, int y) {
@@ -153,16 +161,6 @@ public final class Board {
         return Arrays.deepEquals(this.value, that.value);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash((Object) value);
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-
     int countEmptyFields() {
         int actualEmptyFields = 0;
         int x = 1;
@@ -175,5 +173,15 @@ public final class Board {
             ++x;
         }
         return actualEmptyFields;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash((Object) value);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

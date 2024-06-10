@@ -1,20 +1,26 @@
 package ch.css.m3000.tictactoe;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class ApplicationTest {
 
     private static final int DEFAULT_SIZE = 3;
     private Board sut;
+    private ByteArrayOutputStream outputStream;
+    private PrintStream originalOut;
 
     static Stream<Arguments> provideEndGameScenarios() {
         return Stream.of(
@@ -31,6 +37,39 @@ class ApplicationTest {
     @BeforeEach
     void setup() {
         sut = Board.of(DEFAULT_SIZE);
+
+        outputStream = new ByteArrayOutputStream();
+        originalOut = System.out;
+        System.setOut(new PrintStream(outputStream));
+    }
+
+    @AfterEach
+    void tearDown() {
+        System.setOut(originalOut);
+    }
+ 
+    @Test
+    void playWhenMoveIsLeadingToWinThenPrintWinner() {
+        sut.play(1, 1);
+        sut.play(1, 2);
+        sut.play(2, 1);
+        sut.play(2, 2);
+
+
+        sut.play(3, 1);
+
+        assertThat(outputStream.toString()).isEqualTo("X wins");
+    }
+
+    @Test
+    void playWhenGameIsEndedThenThrowException() {
+        sut.play(1, 1);
+        sut.play(1, 2);
+        sut.play(2, 1);
+        sut.play(2, 2);
+        sut.play(3, 1);
+
+        assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> sut.play(3, 2));
     }
 
     @Test
@@ -113,15 +152,15 @@ class ApplicationTest {
 
     @Test
     void isEndGameWhenAllFieldsAreFilledThenReturnTrue() {
-        int x = 1;
-        while (x <= DEFAULT_SIZE) {
-            int y = 1;
-            while (y <= DEFAULT_SIZE) {
-                sut.play(x, y);
-                ++y;
-            }
-            ++x;
-        }
+        sut.play(1, 1);
+        sut.play(1, 2);
+        sut.play(1, 3);
+        sut.play(2, 1);
+        sut.play(2, 2);
+        sut.play(2, 3);
+        sut.play(3, 2);
+        sut.play(3, 1);
+        sut.play(3, 3);
 
         boolean actual = sut.isEndGame();
 
