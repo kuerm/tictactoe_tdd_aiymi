@@ -1,12 +1,9 @@
 package ch.css.m3000.tictactoe;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import java.util.Arrays;
 import java.util.Objects;
 
-public final class Board {
+public final class Board implements GameBoard {
     private static FieldState currentPlayer;
     private final FieldState[][] value;
 
@@ -114,6 +111,7 @@ public final class Board {
         return value.length;
     }
 
+    @Override
     public void play(int x, int y) {
         if (isEndGame()) {
             throw new IllegalStateException("Game has already ended");
@@ -182,6 +180,19 @@ public final class Board {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("-------------\n");
+        for (int x = 0; x < size(); x++) {
+            for (int y = 0; y < size(); y++) {
+                stringBuilder.append("| %s ".formatted(fieldAt(x + 1, y + 1).state()));
+            }
+            stringBuilder.append("|\n");
+            stringBuilder.append("-------------\n");
+        }
+        if (isEndGame()) {
+            String winner = currentPlayer.equals(FieldState.X) ? "X" : "O";
+            stringBuilder.append("Player %s wins\n".formatted(winner));
+        }
+        return stringBuilder.toString();
     }
 }
