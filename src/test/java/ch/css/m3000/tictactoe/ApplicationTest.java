@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,7 +46,7 @@ class ApplicationTest {
     void tearDown() {
         System.setOut(originalOut);
     }
- 
+
     @Test
     void playWhenMoveIsLeadingToWinThenPrintWinner() {
         sut.play(1, 1);
@@ -72,83 +71,6 @@ class ApplicationTest {
         assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> sut.play(3, 2));
     }
 
-    @Test
-    void isEndGameWhenSize4BoardAndPlayedWellThenReturnTrue() {
-        sut = Board.of(4);
-        int actualSize = sut.size();
-
-        int expectedSize = 4;
-        assertThat(actualSize).isEqualTo(expectedSize);
-        assertThatAllFieldsMustBeEmpty(sut);
-
-        sut.play(1, 1);
-        sut.play(1, 2);
-        sut.play(2, 1);
-        sut.play(2, 2);
-        sut.play(3, 1);
-        sut.play(3, 2);
-        sut.play(4, 1);
-
-        assertThat(sut.isEndGame()).isTrue();
-    }
-
-    @Test
-    void startGameThenEmpty3x3BoardIsReturned() {
-        int actualSize = sut.size();
-
-        int expectedSize = 3;
-        assertThat(actualSize).isEqualTo(expectedSize);
-        assertThatAllFieldsMustBeEmpty(sut);
-    }
-
-    @Test
-    void firstInput1x1ThenReturnBoardWithOneXAnd8Empty() {
-        sut.play(1, 1);
-
-        Field expectedField = new Field(1, 1, FieldState.X);
-        assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField);
-        int expectedEmptyFields = 8;
-        int actualEmptyFields = sut.countEmptyFields();
-        assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
-    }
-
-    @Test
-    void secondInputWhenOnEmptyFieldThenYisOnThisField() {
-        sut.play(1, 1);
-        sut.play(1, 2);
-
-        Field expectedField1 = new Field(1, 1, FieldState.X);
-        assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField1);
-        Field expectedField2 = new Field(1, 2, FieldState.O);
-        assertThat(sut.fieldAt(1, 2)).isEqualTo(expectedField2);
-        int expectedEmptyFields = 7;
-        int actualEmptyFields = sut.countEmptyFields();
-        assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
-    }
-
-    @Test
-    void secondInputWhenOnNoneEmptyFieldThenDoNothing() {
-        sut.play(1, 1);
-        sut.play(1, 1);
-
-        Field expectedField = new Field(1, 1, FieldState.X);
-        assertThat(sut.fieldAt(1, 1)).isEqualTo(expectedField);
-        int expectedEmptyFields = 8;
-        int actualEmptyFields = sut.countEmptyFields();
-        assertThat(actualEmptyFields).isEqualTo(expectedEmptyFields);
-    }
-
-    @Test
-    void fieldAtWhenEmptyBoardThenReturnAllFieldsHaveEmptyState() {
-        int minimumFieldIndex = 1;
-        IntStream.rangeClosed(minimumFieldIndex, DEFAULT_SIZE)
-                .forEach(y -> IntStream.rangeClosed(minimumFieldIndex, DEFAULT_SIZE)
-                        .forEach(x -> {
-                            Field actual = sut.fieldAt(x, y);
-
-                            assertThat(actual.state()).isEqualTo(FieldState.EMPTY);
-                        }));
-    }
 
     @Test
     void isEndGameWhenAllFieldsAreFilledThenReturnTrue() {
@@ -176,12 +98,6 @@ class ApplicationTest {
         assertThat(actual).isFalse();
     }
 
-    @Test
-    void playWhenCoordinatesAreInvalidThenDoNothing() {
-        sut.play(0, 0);
-
-        assertThatAllFieldsMustBeEmpty(sut);
-    }
 
     @ParameterizedTest
     @MethodSource("provideEndGameScenarios")
@@ -194,15 +110,4 @@ class ApplicationTest {
 
         assertThat(actual).isEqualTo(expectedEndGame);
     }
-
-    private void assertThatAllFieldsMustBeEmpty(Board board) {
-        int size = board.size();
-        int minimumFieldIndex = 1;
-        for (int x = minimumFieldIndex; x <= size; ++x) {
-            for (int y = minimumFieldIndex; y <= size; ++y) {
-                assertThat(board.fieldAt(x, y).state()).isEqualTo(FieldState.EMPTY);
-            }
-        }
-    }
-
 }

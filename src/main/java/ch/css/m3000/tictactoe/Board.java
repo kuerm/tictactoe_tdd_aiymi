@@ -26,11 +26,11 @@ public final class Board implements GameBoard {
 
     private boolean isDiagonal2Straight() {
         int size = size();
-        FieldState firstFieldInDiagonal = fieldAt(size, 1).state();
+        FieldState firstFieldInDiagonal = fieldStateAt(size, 1);
         if (firstFieldInDiagonal != FieldState.EMPTY) {
             boolean isStraight = true;
             for (int i = 2; i <= size; ++i) {
-                if (fieldAt(size - i + 1, i).state() != firstFieldInDiagonal) {
+                if (fieldStateAt(size - i + 1, i) != firstFieldInDiagonal) {
                     isStraight = false;
                     break;
                 }
@@ -43,13 +43,13 @@ public final class Board implements GameBoard {
     private boolean isRowStraight() {
         int size = size();
         for (int y = 1; y <= size; ++y) {
-            FieldState firstFieldInRow = fieldAt(1, y).state();
+            FieldState firstFieldInRow = fieldStateAt(1, y);
             if (firstFieldInRow == FieldState.EMPTY) {
                 continue;
             }
             boolean isStraight = true;
             for (int x = 2; x <= size; ++x) {
-                if (fieldAt(x, y).state() != firstFieldInRow) {
+                if (fieldStateAt(x, y) != firstFieldInRow) {
                     isStraight = false;
                     break;
                 }
@@ -64,11 +64,11 @@ public final class Board implements GameBoard {
 
     private boolean isDiagonalStraight() {
         int size = size();
-        FieldState firstFieldInDiagonal = fieldAt(1, 1).state();
+        FieldState firstFieldInDiagonal = fieldStateAt(1, 1);
         if (firstFieldInDiagonal != FieldState.EMPTY) {
             boolean isStraight = true;
             for (int i = 2; i <= size; ++i) {
-                if (fieldAt(i, i).state() != firstFieldInDiagonal) {
+                if (fieldStateAt(i, i) != firstFieldInDiagonal) {
                     isStraight = false;
                     break;
                 }
@@ -81,11 +81,11 @@ public final class Board implements GameBoard {
     private boolean isColumnStraight() {
         int size = size();
         for (int x = 1; x <= size; ++x) {
-            FieldState firstFieldInColumn = fieldAt(x, 1).state();
+            FieldState firstFieldInColumn = fieldStateAt(x, 1);
             if (firstFieldInColumn != FieldState.EMPTY) {
                 boolean isStraight = true;
                 for (int y = 2; y <= size; ++y) {
-                    if (fieldAt(x, y).state() != firstFieldInColumn) {
+                    if (fieldStateAt(x, y) != firstFieldInColumn) {
                         isStraight = false;
                         break;
                     }
@@ -132,15 +132,11 @@ public final class Board implements GameBoard {
     }
 
     private boolean isNotEmpty(int x, int y) {
-        return fieldAt(x, y).state() != FieldState.EMPTY;
+        return fieldStateAt(x, y) != FieldState.EMPTY;
     }
 
     private void fillPlayedFieldState(int x, int y) {
         value[x - 1][y - 1] = nextFieldState();
-    }
-
-    public Field fieldAt(int x, int y) {
-        return new Field(x, y, fieldStateAt(x, y));
     }
 
     private FieldState fieldStateAt(int x, int y) {
@@ -165,7 +161,7 @@ public final class Board implements GameBoard {
         while (x <= size()) {
             int y = 1;
             while (y <= size()) {
-                actualEmptyFields += fieldAt(x, y).state().equals(FieldState.EMPTY) ? 1 : 0;
+                actualEmptyFields += fieldStateAt(x, y).equals(FieldState.EMPTY) ? 1 : 0;
                 ++y;
             }
             ++x;
@@ -188,7 +184,7 @@ public final class Board implements GameBoard {
         stringBuilder.append("-------------\n");
         for (int x = 0; x < boardSize; x++) {
             for (int y = 0; y < boardSize; y++) {
-                stringBuilder.append("| %s ".formatted(fieldAt(x + 1, y + 1).state()));
+                stringBuilder.append("| %s ".formatted(fieldStateAt(x + 1, y + 1)));
             }
             stringBuilder.append("|\n");
             stringBuilder.append("-------------\n");

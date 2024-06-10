@@ -6,6 +6,4 @@ public interface GameBoard {
     void play(int x, int y);
 
     boolean isEndGame();
-
-    Field fieldAt(int x, int y);
 }
