@@ -48,19 +48,6 @@ class ApplicationTest {
     }
 
     @Test
-    void playWhenMoveIsLeadingToWinThenPrintWinner() {
-        sut.play(1, 1);
-        sut.play(1, 2);
-        sut.play(2, 1);
-        sut.play(2, 2);
-
-
-        sut.play(3, 1);
-
-        assertThat(outputStream.toString()).isEqualTo("X wins");
-    }
-
-    @Test
     void playWhenGameIsEndedThenThrowException() {
         sut.play(1, 1);
         sut.play(1, 2);

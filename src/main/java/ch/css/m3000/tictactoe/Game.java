@@ -1,19 +1,14 @@
 package ch.css.m3000.tictactoe;
 
-import java.util.Scanner;
-
 public class Game {
     private final GameBoard gameBoard;
     private final GameBoardPrinter gameBoardPrinter;
+    private final GameBoardReader gameBoardReader;
 
-    public Game(GameBoard gameBoard, GameBoardPrinter gameBoardPrinter) {
+    public Game(GameBoard gameBoard, GameBoardPrinter gameBoardPrinter, GameBoardReader gameBoardReader) {
         this.gameBoard = gameBoard;
         this.gameBoardPrinter = gameBoardPrinter;
-    }
-
-    public static void main(String[] args) {
-        Game game = new Game(Board.of(3), new BoardPrinter());
-        game.startGame();
+        this.gameBoardReader = gameBoardReader;
     }
 
     public void startGame() {
@@ -21,11 +16,11 @@ public class Game {
             gameBoardPrinter.print(System.out, gameBoard);
 
             System.out.println("Please enter your move 'x, y': ");
-            Scanner scanner = new Scanner(System.in);
-            String input = scanner.nextLine();
+            String input = gameBoardReader.readMove();
+            System.out.println(input);
             String[] coordinates = input.split(",");
-            int x = Integer.parseInt(coordinates[0]);
-            int y = Integer.parseInt(coordinates[1]);
+            int x = Integer.parseInt(coordinates[0].trim());
+            int y = Integer.parseInt(coordinates[1].trim());
             gameBoard.play(x, y);
         }
 

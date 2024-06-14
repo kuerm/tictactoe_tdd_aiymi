@@ -120,10 +120,6 @@ public final class Board implements GameBoard {
             return;
         }
         fillPlayedFieldState(x, y);
-
-        if (isEndGame()) {
-            System.out.printf("%s wins", currentPlayer);
-        }
     }
 
     private boolean isOutOfBounds(int x, int y) {
