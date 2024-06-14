@@ -1,23 +1,26 @@
 package ch.css.m3000.tictactoe;
 
+import ch.css.m3000.tictactoe.domain.FieldState;
+import ch.css.m3000.tictactoe.service.Board;
+
 import java.util.Arrays;
 import java.util.Objects;
 
-public final class Board implements GameBoard {
+public final class TicTacToeBoard implements Board {
     private static FieldState currentPlayer;
     private final FieldState[][] value;
 
-    private Board(FieldState[][] value) {
+    private TicTacToeBoard(FieldState[][] value) {
         this.value = value;
     }
 
-    public static Board of(int size) {
+    public static TicTacToeBoard of(int size) {
         currentPlayer = FieldState.O;
         FieldState[][] fieldStates = new FieldState[size][size];
         for (FieldState[] fieldState : fieldStates) {
             Arrays.fill(fieldState, FieldState.EMPTY);
         }
-        return new Board(fieldStates);
+        return new TicTacToeBoard(fieldStates);
     }
 
     public boolean isEndGame() {
@@ -107,7 +110,7 @@ public final class Board implements GameBoard {
         return currentPlayer;
     }
 
-    public int size() {
+    private int size() {
         return value.length;
     }
 
@@ -147,11 +150,11 @@ public final class Board implements GameBoard {
         if (obj == null || obj.getClass() != this.getClass()) {
             return false;
         }
-        var that = (Board) obj;
+        var that = (TicTacToeBoard) obj;
         return Arrays.deepEquals(this.value, that.value);
     }
 
-    int countEmptyFields() {
+    private int countEmptyFields() {
         int actualEmptyFields = 0;
         int x = 1;
         while (x <= size()) {

@@ -1,5 +1,6 @@
-package ch.css.m3000.tictactoe;
+package ch.css.m3000.tictactoe.acceptancetest;
 
+import ch.css.m3000.tictactoe.TicTacToeBoard;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,10 +15,10 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-class ApplicationTest {
+class TicTacToeBoardTest {
 
     private static final int DEFAULT_SIZE = 3;
-    private Board sut;
+    private TicTacToeBoard sut;
     private ByteArrayOutputStream outputStream;
     private PrintStream originalOut;
 
@@ -35,7 +36,7 @@ class ApplicationTest {
 
     @BeforeEach
     void setup() {
-        sut = Board.of(DEFAULT_SIZE);
+        sut = TicTacToeBoard.of(DEFAULT_SIZE);
 
         outputStream = new ByteArrayOutputStream();
         originalOut = System.out;

@@ -1,12 +1,9 @@
-package ch.css.m3000.tictactoe;
+package ch.css.m3000.tictactoe.ui;
 
 import java.util.Scanner;
 
-public class BoardReader implements GameBoardReader {
+public class TicTacToeMoveReader implements MoveReader {
     private final Scanner scanner = new Scanner(System.in);
-
-    public BoardReader() {
-    }
 
     @Override
     public String readMove() {

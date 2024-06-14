@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BoardTest {
+class TicTacToeBoardTest {
     @Test
     void toStringWhenBoardIsEmptyThenReturnEmptyStructureWithoutWinner() {
-        Board sut = Board.of(3);
+        TicTacToeBoard sut = TicTacToeBoard.of(3);
 
         assertThat(sut.toString()).isEqualTo("""
                 -------------
@@ -22,7 +22,7 @@ class BoardTest {
 
     @Test
     void toStringWhenBoardIsPlayedWithoutWinnerThenReturnStructureWithoutWinner() {
-        Board sut = Board.of(3);
+        TicTacToeBoard sut = TicTacToeBoard.of(3);
         sut.play(1, 1);
         sut.play(2, 2);
 
@@ -39,7 +39,7 @@ class BoardTest {
 
     @Test
     void toStringWhenBoardIsPlayedWithWinnerThenReturnStructureWithWinner() {
-        Board sut = Board.of(3);
+        TicTacToeBoard sut = TicTacToeBoard.of(3);
         sut.play(1, 1);
         sut.play(2, 2);
         sut.play(1, 2);
