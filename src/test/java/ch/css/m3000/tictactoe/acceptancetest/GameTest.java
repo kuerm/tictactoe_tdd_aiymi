@@ -5,7 +5,7 @@ import ch.css.m3000.tictactoe.application.Game;
 import ch.css.m3000.tictactoe.service.Board;
 import ch.css.m3000.tictactoe.ui.BoardPrinter;
 import ch.css.m3000.tictactoe.ui.MoveReader;
-import ch.css.m3000.tictactoe.ui.TicTacToeBoardBrinter;
+import ch.css.m3000.tictactoe.ui.TicTacToeBoardPrinter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ class GameTest {
     @Test
     void play() {
         Board board = TicTacToeBoard.of(3);
-        BoardPrinter boardPrinter = new TicTacToeBoardBrinter();
+        BoardPrinter boardPrinter = new TicTacToeBoardPrinter(System.out);
         when(boardReaderMock.readMove()).thenReturn("1,1").thenReturn("1,2").thenReturn("2,1").thenReturn("2,2").thenReturn("3,1");
         Game sut = new Game(board, boardPrinter, boardReaderMock);
 

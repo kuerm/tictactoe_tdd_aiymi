@@ -19,15 +19,15 @@ public class Game {
 
     public void play() {
         while (!board.isEndGame()) {
-            boardPrinter.print(System.out, board);
-            boardPrinter.print(System.out, "Please enter your move 'x, y': ");
+            boardPrinter.print(board);
+            boardPrinter.print("Please enter your move 'x, y': ");
             String input = moveReader.readMove();
-            boardPrinter.print(System.out, input);
+            boardPrinter.print(input);
             Coordinates coordinates = CoordinateParser.parseCoordinates(input);
             board.play(coordinates.x(), coordinates.y());
         }
 
-        boardPrinter.print(System.out, board);
+        boardPrinter.print(board);
     }
 
 }
