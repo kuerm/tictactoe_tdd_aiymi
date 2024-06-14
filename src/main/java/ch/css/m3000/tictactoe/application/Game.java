@@ -18,16 +18,24 @@ public class Game {
     }
 
     public void play() {
-        while (!board.isEndGame()) {
-            boardPrinter.print(board);
-            boardPrinter.print("Please enter your move 'x, y': ");
-            String input = moveReader.readMove();
-            boardPrinter.print(input);
-            Coordinates coordinates = CoordinateParser.parseCoordinates(input);
-            board.play(coordinates.x(), coordinates.y());
-        }
+        playUntilEndIsReached();
 
         boardPrinter.print(board);
+    }
+
+    private void playUntilEndIsReached() {
+        while (!board.isEndGame()) {
+            processMoves();
+        }
+    }
+
+    private void processMoves() {
+        boardPrinter.print(board);
+        boardPrinter.print("Please enter your move 'x, y': ");
+        String input = moveReader.readMove();
+        boardPrinter.print(input);
+        Coordinates coordinates = CoordinateParser.parseCoordinates(input);
+        board.play(coordinates.x(), coordinates.y());
     }
 
 }
