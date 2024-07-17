@@ -8,19 +8,21 @@ import java.util.Objects;
 
 public final class TicTacToeBoard implements Board {
     private static FieldState currentPlayer;
-    private final FieldState[][] value;
+    private final FieldState[][] fieldStates;
 
-    private TicTacToeBoard(FieldState[][] value) {
-        this.value = value;
+    private TicTacToeBoard(FieldState[][] fieldStates) {
+        this.fieldStates = fieldStates;
     }
 
     public static TicTacToeBoard of(int size) {
         currentPlayer = FieldState.O;
         FieldState[][] fieldStates = new FieldState[size][size];
-        for (FieldState[] fieldState : fieldStates) {
-            Arrays.fill(fieldState, FieldState.EMPTY);
-        }
+        initializeEmptyBoard(fieldStates);
         return new TicTacToeBoard(fieldStates);
+    }
+
+    private static void initializeEmptyBoard(FieldState[][] fieldStates) {
+        Arrays.stream(fieldStates).forEach(fieldState -> Arrays.fill(fieldState, FieldState.EMPTY));
     }
 
     public boolean isEndGame() {
@@ -111,7 +113,7 @@ public final class TicTacToeBoard implements Board {
     }
 
     private int size() {
-        return value.length;
+        return fieldStates.length;
     }
 
     @Override
@@ -135,11 +137,11 @@ public final class TicTacToeBoard implements Board {
     }
 
     private void fillPlayedFieldState(int x, int y) {
-        value[x - 1][y - 1] = nextFieldState();
+        fieldStates[x - 1][y - 1] = nextFieldState();
     }
 
     private FieldState fieldStateAt(int x, int y) {
-        return value[x - 1][y - 1];
+        return fieldStates[x - 1][y - 1];
     }
 
     @Override
@@ -151,7 +153,7 @@ public final class TicTacToeBoard implements Board {
             return false;
         }
         var that = (TicTacToeBoard) obj;
-        return Arrays.deepEquals(this.value, that.value);
+        return Arrays.deepEquals(this.fieldStates, that.fieldStates);
     }
 
     private int countEmptyFields() {
@@ -170,7 +172,7 @@ public final class TicTacToeBoard implements Board {
 
     @Override
     public int hashCode() {
-        return Objects.hash((Object) value);
+        return Objects.hash((Object) fieldStates);
     }
 
     @Override
